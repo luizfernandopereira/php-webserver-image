@@ -23,7 +23,7 @@ LABEL company="Alternativa Informática <marcelo@altinfo.com.br>"
 
 COPY ./oracle-instantclient19.3-basic-19.3.0.0.0-1.x86_64.rpm /install-path/
 
-RUN dnf install /install-path/oracle-instantclient19.3-basic-19.3.0.0.0-1.x86_64.rpm
+RUN dnf install /install-path/oracle-instantclient19.3-basic-19.3.0.0.0-1.x86_64.rpm -y
 
 RUN dnf install php \
     php-cli \
