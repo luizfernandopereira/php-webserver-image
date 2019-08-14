@@ -23,7 +23,7 @@ LABEL company="Alternativa Informática <marcelo@altinfo.com.br>"
 
 COPY ./oracle-instantclient19.3-basic-19.3.0.0.0-1.x86_64.rpm /install-path/
 
-RUN dnf install ./install-path/oracle-instantclient19.3-basic-19.3.0.0.0-1.x86_64.rpm
+RUN dnf install /install-path/oracle-instantclient19.3-basic-19.3.0.0.0-1.x86_64.rpm
 
 RUN dnf install php \
     php-cli \
@@ -47,7 +47,7 @@ RUN dnf install php \
 ENV TIMEZONE=America/Sao_Paulo
 RUN ln -snf /usr/share/zoneinfo/$TIMEZONE /etc/localtime && echo $TIMEZONE > /etc/timezone
 
-RUN rm -Rf ./install-path
+RUN rm -Rf /install-path
 RUN rm /etc/php.d/15-xdebug.ini
 COPY xdebug.ini /etc/php.d/15-xdebug.ini.disabled
 COPY nginx.conf /etc/nginx/nginx.conf
