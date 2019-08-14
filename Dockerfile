@@ -21,8 +21,11 @@ FROM fedora
 LABEL maintainer="Luiz Fernando Pereira <luizfernandopereira@outlook.com.br>"
 LABEL company="Alternativa Informática <marcelo@altinfo.com.br>"
 
-RUN dnf update -y \
-    && dnf install php \
+COPY ./oracle-instantclient19.3-basic-19.3.0.0.0-1.x86_64.rpm /install-path/
+
+RUN dnf install ./install-path/oracle-instantclient19.3-basic-19.3.0.0.0-1.x86_64.rpm
+
+RUN dnf install php \
     php-cli \
     php-common \
     php-pdo \
@@ -44,6 +47,7 @@ RUN dnf update -y \
 ENV TIMEZONE=America/Sao_Paulo
 RUN ln -snf /usr/share/zoneinfo/$TIMEZONE /etc/localtime && echo $TIMEZONE > /etc/timezone
 
+RUN rm -Rf ./install-path
 RUN rm /etc/php.d/15-xdebug.ini
 COPY xdebug.ini /etc/php.d/15-xdebug.ini.disabled
 COPY nginx.conf /etc/nginx/nginx.conf
@@ -52,6 +56,8 @@ COPY www.conf /etc/php-fpm.d/www.conf
 COPY ./fail-pages/*.html /usr/share/nginx/html/
 COPY --from=0 /usr/lib64/php/modules/oci8.so /usr/lib64/php/modules/oci8.so
 COPY oracle-extension.ini /etc/php.d/20-oci8.ini
+
+RUN chmod +x /usr/lib64/php/modules/oci8.so
 
 COPY entrypoint.sh /usr/sbin/entrypoint.sh
 RUN chmod +x /usr/sbin/entrypoint.sh \
