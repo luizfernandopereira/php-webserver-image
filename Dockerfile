@@ -1,7 +1,6 @@
 FROM fedora
 
 LABEL maintainer="Luiz Fernando Pereira <luizfernandopereira@outlook.com.br>"
-LABEL company="Alternativa Informática <marcelo@altinfo.com.br>"
 
 RUN dnf install php \
     php-cli \
