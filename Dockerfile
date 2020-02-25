@@ -17,6 +17,7 @@ RUN dnf install php \
     php-intl \
     php-pear \
     php-pecl-xdebug \
+    php-ldap \
     nginx -y \
     && dnf clean all
 
