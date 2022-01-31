@@ -2,7 +2,8 @@ FROM fedora
 
 LABEL maintainer="Luiz Fernando Pereira <luizfernandopereira@outlook.com.br>"
 
-RUN dnf install php \
+RUN dnf update -y && \
+    dnf install php \
     php-cli \
     php-common \
     php-pdo \
