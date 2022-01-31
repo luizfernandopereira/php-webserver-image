@@ -21,9 +21,6 @@ RUN dnf install php \
     nginx -y \
     && dnf clean all
 
-ENV TIMEZONE=America/Sao_Paulo
-RUN ln -snf /usr/share/zoneinfo/$TIMEZONE /etc/localtime && echo $TIMEZONE > /etc/timezone
-
 RUN rm /etc/php.d/15-xdebug.ini
 COPY xdebug.ini /etc/php.d/15-xdebug.ini.disabled
 COPY nginx.conf /etc/nginx/nginx.conf

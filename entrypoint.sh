@@ -4,19 +4,29 @@ if [ "$(printf %c $1)" = '-' ]; then
   if [ "$(printf %s $1)" = '--debug' ] || [ "$(printf %s $2)" = '--debug' ]; then
     mv /etc/php.d/15-xdebug.ini.disabled /etc/php.d/15-xdebug.ini
     ip="$(awk 'END{print $1}' /etc/hosts)"
-    echo "Modo de debug foi ativado no endereco $ip na porta 9000"
-    echo "O IDE key (session id) é: DOCKERENV"
-    echo "Aguarde até 30s para garantir que o container iniciou os serviços corretamente."
+
+    if [ -z ${XDEBUG_KEY+x} ]; then
+      XDEBUG_KEY="DOCKERENV"
+    fi
+
+    echo "Debug mode is active on $ip on port 9000"
+    echo "The IDE key (session id) is: $XDEBUG_KEY"
+    echo "Wait until 30 seconds while the services are started."
   fi
 
   if [ "$(printf %s $1)" = '--public-folder' ] || [ "$(printf %s $2)" = '--public-folder' ]; then
     sed -i 's#/var/www/html;#/var/www/html/public;#g' /etc/nginx/nginx.conf
-    echo "Sua aplicação será iniciada com o NGINX usando a pasta public como raiz."
+    echo "The aplication will be hosted with NGINX using the public folder as root."
   fi
 fi
 
+if [ -n "$TIMEZONE" ]; then
+  ln -snf /usr/share/zoneinfo/$TIMEZONE /etc/localtime && echo $TIMEZONE > /etc/timezone
+fi
+
+
 echo "=============================================================================="
-echo "     O PHP-FPM e o NGINX exibirão suas mensagens de erro nesta interface"
+echo "     The PHP-FPM and NGINX will show the logs messages on this interface"
 echo "=============================================================================="
 
 php-fpm
